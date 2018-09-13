@@ -1,0 +1,165 @@
+5章ーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+	モックアップ（ワイヤーフレーム）
+		実装後のアプリケーションの外観
+
+
+	IE9以下のバージョンへの対処（html）
+		<head>
+			<!--[if lt IE 9]>
+				<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+				</script>
+			<![endif]-->
+		</head>
+
+
+	CSSクラス
+		構文 :
+			class="class_name[, class_name, ...]"
+				class_name : クラス名
+		備考 :
+			多くは Bootstrap 特有のもの
+
+
+	Bootstrap
+		概要 :
+			動的なスタイルシートを生成するために LESS CSS言語を使っている
+			RailsのAsset PipelineはデフォルトでSass言語をサポートしているため
+			bootstrap-sass により LESS を Sass へ変換することで 必要なBootstrapファイルを
+			現在のアプリケーションですべて利用できる
+		導入方法 :
+			1.	Gemfile に
+					gem 'bootstrap-sass', '3.3.7'
+				を追加する
+			2.	ターミナルで
+					bundle install
+				を実行する
+			3.	app/assets/stylesheets/ に custom.scss を作成し
+					@import "bootstrap-sprockets";
+					@import "bootstrap";
+				を追加する
+		クラス :
+			navbar-fixed-top
+				ページ上部に固定する
+
+
+
+	Sass(Sassy CSS)言語
+		CSSを拡張した言語（拡張子 .scss）
+		アセットパイプラインはこの拡張子を認識する
+		CSSルール :
+			クラス、id、HTMLタグ、またはそれらの組み合わせ、のいずれかを指定し
+			その後ろにスタイリングコマンドのリストを記述する
+			クラス等へのスタイルの適用 :
+				.class { *** }
+					ここで指定されたクラスの要素はルール（***）に従う
+				#id { *** }
+					ここで指定されたidの要素はルール（***）に従う
+			スタイリングコマンド :
+				padding-top: ***px;
+					表示領域上部に指定ピクセル分の余白を追加する
+					例）bodyの上部に60ピクセルの余白を追加する
+							body { padding-top: 60px; }
+				text-align: ***;
+					要素を左(left)、中央(center)、右揃え(right)にする
+
+
+
+	Asset Pipeline
+		概要 :
+			CSS、JacaScript、画像などの静的コンテンツの生産性と管理を大幅に強化できる機能
+			主要な3つの機能、アセットディレクトリ、マニフェストファイル、プリプロセッサエンジンの理解が必要
+			アセットディレクトリ :
+				app/assets : 現在のアプリケーション固有のアセット
+				lib/assets : 自分の属する開発チームによって作成されたライブラリ用のアセット
+				vendor/assets : サードパーティのアセット
+		スタイルシート :
+			app/assets/stylesheets/
+				ここに置かれたスタイルシートは application.css の一部としてWebサイトのレイアウトに読み込まれる
+
+
+
+	リンクの生成
+		構文 :
+			link_to(arg1, arg2[, arg3])
+				arg1 string ""	: リンクテキスト
+								  image_tagを使うことで画像のリンクを生成できる
+				arg2 path   ''	: URL 一般的にダミーとして '#' が使われる
+				arg3 option #	: オプションハッシュ 省略可
+								  オプションやHTMLオプションを追加（ハッシュ形式で記述）
+		使用例(# 生成後) :
+			newアクションへのリンク :
+				<%= link_to "新規作成", :controller => "pages", :action => "new" %>
+				# <a href="/pages/new">新規作成</a>
+			確認メッセージを表示 :
+				<%= link_to "新規作成", {:controller => "pages", :action => "new"}, :confirm => "本当に移動しますか？" %>
+				# <a href="/pages/new" data-confirm="新規作成してよろしいでしょうか？">新規作成</a>
+			外部サイト(Ruby on Rails)へのリンク :
+				<%= link_to "Ruby on Rails", "http://rubyonrails.org/" %>
+				# <a href="http://rubyonrails.org">Ruby on Rails</a>
+			class属性を設定 :
+				<%= link_to "新規作成", { :controller => "pages", :action => "new'") }, { :class => "class_1" }  %>
+				# <a href="/pages/new" class="class_1">新規作成</a>
+		備考 : 
+			Railsヘルパーのメソッド
+
+
+	イメージタグの生成
+		構文 :
+			image_tag(arg1[, arg2])
+				arg1 image_file ""	: イメージファイルのパス(デフォルトディレクトリは app/assets/images/)
+				arg2 option 	  #	: オプションハッシュ 省略可
+									  オプションやHTMLオプションを追加（ハッシュ形式で記述）
+		使用例(# 生成後) :
+			icon.png画像を表示 :
+				<%= image_tag("icon.png") %>
+				# <img alt="Icon" src="/images/icon.png" />
+			16x16でaltがEdit Entryのicon.png画像を表示	 :
+				<%= image_tag("icon.png", :size => "16x16", :alt => "アイコン") %>
+				# <img alt="アイコン" height="16" src="/images/icon.png" width="16" />
+			classがmenu_iconのicon.png画像を表示 :
+				<%= image_tag("/icons/icon.gif", :class => "menu_icon") %>
+				# <img alt="Icon" class="menu_icon" src="/images/icon.png" />
+			画像のリンクを生成 :
+				<%= link_to image_tag("logo.png"), :action => "index" %>
+				# <a href="/blogs"><img alt="Logo" src="/images/logo.png" /></a>
+		備考 :
+			Railsヘルパーのメソッド
+
+
+	<div>
+		一般的な表示領域を表す
+		要素を別々のパーツを分けるときに使用 divide
+		HTML5以降は <header>, <nav>, <section> が追加された
+
+
+	<li>
+		リストアイテムタグ list
+
+
+	<ul>
+		順不同リストタグ unordered list
+
+
+	<nav>
+		明示的にその内側がナビゲーションリンクであると伝えるタグ navigation
+
+	<%= *** %>
+		埋め込みRuby記法
+
+	<% *** %>
+		埋め込みRuby記法
+		***部分の文字列がページに表示される
+
+	<%#= *** >
+		コメントアウトされブラウザのHTMLにも表示されなくなる
+
+	<%= yield %>
+		レイアウトにページごとの内容を挿入するメソッド
+
+	<%= render '***' %>
+		Railsヘルパー パーシャル機能
+		app/view/_***.html.erb のコードを挿入する
+		_ はパーシャルの普遍的な命名規則
+		補足 :
+			'layouts/***' とした場合の検索対象は
+			app/view/layouts/_***.html.erb となる
